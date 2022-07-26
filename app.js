@@ -47,7 +47,7 @@ document.getElementById('sharex').addEventListener('click', async () => {
     return
   }
 
-  if (navigator.canShare({ files })) {
+  if (navigator.canShare( files )) {
     try {
       await navigator.share({
         files,
