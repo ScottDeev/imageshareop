@@ -18,15 +18,16 @@ document.getElementById('sharex').addEventListener('click', async () => {
      const imgExt = getUrlExtension(imgUrl);
     const response = await fetch(imgUrl);
     const blob = await response.blob();
-    const fileArray = [new File([blob], "profileImage." + imgExt, {
+    const fileArray = new File([blob], "profileImage." + imgExt, {
       type: blob.type,
-    })];
+    });
     console.log(fileArray);
 
-    if (navigator.canShare({file:fileArray} )) {
+    if (navigator.canShare(fileArray)) {
       try {
-         navigator.share({
-          file:fileArray
+         await navigator.share({
+          file:[fileArray],
+          title: 'qr code'
         })
         output.textContent = 'Shared!'
       } catch (error) {
