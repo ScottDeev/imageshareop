@@ -18,7 +18,7 @@ document.getElementById('sharex').addEventListener('click', async () => {
     const imgExt = getUrlExtension(imgUrl);
     const response = await fetch(imgUrl);
     const imageArrayBuffer = await response.arrayBuffer();
-    const fileArray = new File([imageArrayBuffer], "profileImage." + imgExt, {
+    const fileArray = new File([imageArrayBuffer], "search-icon." + imgExt, {
       type: 'image/png',
     });
     console.log(fileArray);
