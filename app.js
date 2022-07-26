@@ -34,30 +34,30 @@ document.getElementById('sharex').addEventListener('click', async () => {
        console.log('Here is Base64 Url', dataUrl)
        const files = dataURLtoFile(dataUrl, "imageName.jpg");
        console.log("Here is JavaScript File Object",files)
+       if (!navigator.canShare) {
+         output.textContent = `Your browser doesn't support the Web Share API.`
+         return
+       }
+       
+       if (navigator.canShare(files )) {
+         console.log(files);
+         try {
+            navigator.share({
+             files,
+             title: 'Images',
+             text: 'Beautiful images'
+           })
+           output.textContent = 'Shared!'
+         } catch (error) {
+           output.textContent = `Error: ${error.message}`
+         }
+       } else {
+         output.textContent = `Your system doesn't support sharing these files.`
+       }
      })
+  })
   console.log(input);
-  console.log(files);
-
-
+  
+  
   // feature detecting navigator.canShare() also implies
   // the same for the navigator.share()
-  if (!navigator.canShare) {
-    output.textContent = `Your browser doesn't support the Web Share API.`
-    return
-  }
-
-  if (navigator.canShare( files )) {
-    try {
-      await navigator.share({
-        files,
-        title: 'Images',
-        text: 'Beautiful images'
-      })
-      output.textContent = 'Shared!'
-    } catch (error) {
-      output.textContent = `Error: ${error.message}`
-    }
-  } else {
-    output.textContent = `Your system doesn't support sharing these files.`
-  }
-})
