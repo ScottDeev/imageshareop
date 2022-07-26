@@ -22,10 +22,11 @@ document.getElementById('sharex').addEventListener('click', async () => {
       type: blob.type,
     });
     console.log(file);
-    if (navigator.canShare(file )) {
+
+    if (navigator.canShare({file:file} )) {
       try {
          navigator.share({
-          file,
+          file:file
         })
         output.textContent = 'Shared!'
       } catch (error) {
