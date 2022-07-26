@@ -17,16 +17,16 @@ document.getElementById('sharex').addEventListener('click', async () => {
   const onImageEdit = async (imgUrl) => {
     const imgExt = getUrlExtension(imgUrl);
     const response = await fetch(imgUrl);
-    const imageArrayBuffer = await response.arrayBuffer();
-    const fileArray = new File([imageArrayBuffer], "search-icon." + imgExt, {
-      type: 'image/png',
+    const blob = await response.blob();
+    const fileArray = new File([blob], "search-icon." + imgExt, {
+      type: blob.type,
     });
     console.log(fileArray);
 
     if (navigator.canShare(fileArray)) {
       try {
          await navigator.share({
-          title: 'qr codeee',
+          title: 'qrCodeee',
           files:[fileArray]
         })
         output.textContent = 'Shared!'
