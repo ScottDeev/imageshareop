@@ -5,58 +5,41 @@ const output = document.getElementById('output')
 document.getElementById('sharex').addEventListener('click', async () => {
   // ***Here is the code for converting "image source" (url) to "Base64".***
   let url = input.src
-  const toDataURL = url => fetch(url)
-        .then(response => response.blob())
-        .then(blob => new Promise((resolve, reject) => {
-        const reader = new FileReader()
-        reader.onloadend = () => resolve(reader.result)
-        reader.onerror = reject
-        reader.readAsDataURL(blob)
-        }))
-  
-  
-  // ***Here is code for converting "Base64" to javascript "File Object".***
-  
-    function dataURLtoFile(dataurl, filename) {
-       var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-       bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-       while(n--){
-       u8arr[n] = bstr.charCodeAt(n);
-       }
-     return new File([u8arr], filename, );
+  console.log(url);
+  const getUrlExtension = (url) => {
+    return url
+      .split(/[#?]/)[0]
+      .split(".")
+      .pop()
+      .trim();
+  }
+
+  const onImageEdit = async (imgUrl) => {
+     const imgExt = getUrlExtension(imgUrl);
+    const response = await fetch(imgUrl);
+    const blob = await response.blob();
+    const file = new File([blob], "profileImage." + imgExt, {
+      type: blob.type,
+    });
+    console.log(file);
+    if (navigator.canShare(file )) {
+      try {
+         navigator.share({
+          file,
+          title: 'Images',
+          text: 'Beautiful images'
+        })
+        output.textContent = 'Shared!'
+      } catch (error) {
+        output.textContent = `Error: ${error.message}`
+      }
+    } else {
+      output.textContent = `Your system doesn't support sharing these files.`
     }
-  
-  
-  // *** Calling both function ***
-  
-    toDataURL(url)
-    .then(dataUrl => {
-       console.log('Here is Base64 Url', dataUrl)
-       const files = dataURLtoFile(dataUrl, "imageName.jpg");
-       console.log("Here is JavaScript File Object",files)
-       if (!navigator.canShare) {
-         output.textContent = `Your browser doesn't support the Web Share API.`
-         return
-       }
-       
-       if (navigator.canShare(files )) {
-         console.log(files);
-         try {
-            navigator.share({
-             files,
-             title: 'Images',
-             text: 'Beautiful images'
-           })
-           output.textContent = 'Shared!'
-         } catch (error) {
-           output.textContent = `Error: ${error.message}`
-         }
-       } else {
-         output.textContent = `Your system doesn't support sharing these files.`
-       }
-     })
-  })
-  console.log(input);
+  }
+  onImageEdit(url)
+})
+  // console.log(input);
   
   
   // feature detecting navigator.canShare() also implies
