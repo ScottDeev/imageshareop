@@ -15,11 +15,11 @@ document.getElementById('sharex').addEventListener('click', async () => {
   }
 
   const onImageEdit = async (imgUrl) => {
-     const imgExt = getUrlExtension(imgUrl);
+    const imgExt = getUrlExtension(imgUrl);
     const response = await fetch(imgUrl);
-    const blob = await response.blob();
-    const fileArray = new File([blob], "profileImage." + imgExt, {
-      type: blob.type,
+    const imageArrayBuffer = await response.arrayBuffer();
+    const fileArray = new File([imageArrayBuffer], "profileImage." + imgExt, {
+      type: 'image/png',
     });
     console.log(fileArray);
 
