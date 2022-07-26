@@ -26,8 +26,8 @@ document.getElementById('sharex').addEventListener('click', async () => {
     if (navigator.canShare(fileArray)) {
       try {
          await navigator.share({
-          files:[fileArray],
-          title: 'qr code'
+          title: 'qr codeee',
+          files:[fileArray]
         })
         output.textContent = 'Shared!'
       } catch (error) {
