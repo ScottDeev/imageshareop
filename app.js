@@ -26,8 +26,6 @@ document.getElementById('sharex').addEventListener('click', async () => {
       try {
          navigator.share({
           file,
-          title: 'Images',
-          text: 'Beautiful images'
         })
         output.textContent = 'Shared!'
       } catch (error) {
