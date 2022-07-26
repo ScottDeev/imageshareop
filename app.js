@@ -4,7 +4,6 @@ const output = document.getElementById('output')
 
 document.getElementById('sharex').addEventListener('click', async () => {
   // ***Here is the code for converting "image source" (url) to "Base64".***
-
   let url = input.src
   const toDataURL = url => fetch(url)
         .then(response => response.blob())
